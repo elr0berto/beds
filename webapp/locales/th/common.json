@@ -1,0 +1,16 @@
+{
+  "signInTitle": "เข้าสู่ระบบบัญชีของคุณ",
+  "username": "ชื่อผู้ใช้",
+  "password": "รหัสผ่าน",
+  "signIn": "เข้าสู่ระบบ",
+  "invalidCredentials": "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง",
+  "welcome": "ยินดีต้อนรับ, {{name}}!",
+  "pleaseSignIn": "กรุณาเข้าสู่ระบบ",
+  "bedManagementSystem": "ระบบจัดการเตียง",
+  "configure": "ตั้งค่า",
+  "administer": "ดูแล",
+  "view": "ดูข้อมูล",
+  "learn": "เรียนรู้",
+  "examples": "ตัวอย่าง",
+  "goToNextjs": "ไปที่ nextjs.org →"
+} 

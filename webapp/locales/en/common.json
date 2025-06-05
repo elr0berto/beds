@@ -1,0 +1,16 @@
+{
+  "signInTitle": "Sign in to your account",
+  "username": "Username",
+  "password": "Password",
+  "signIn": "Sign in",
+  "invalidCredentials": "Invalid credentials",
+  "welcome": "Welcome, {{name}}!",
+  "pleaseSignIn": "Please sign in",
+  "bedManagementSystem": "Bed Management System",
+  "configure": "Configure",
+  "administer": "Administer",
+  "view": "View",
+  "learn": "Learn",
+  "examples": "Examples",
+  "goToNextjs": "Go to nextjs.org →"
+} 
