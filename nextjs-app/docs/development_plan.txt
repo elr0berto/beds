@@ -1,0 +1,28 @@
+This document is intended as instructions to the AI agent.
+This is a development plan for how to build this next.js webapp.
+
+Ground rules:
+We are doing TDD (test driven development), tests firsts etc.
+We are writing e2e tests in playwright.
+We do not modify package.json directly when installing packages, we use npm install etc.
+The project is using typescript.
+Sometimes you the AI agent cannot fix issues by running commands locally but must instead 
+instruct me the user to go to vercel or supabase to set things up there.
+
+Deployment:
+The app is deployed to vercel. but we develop locally.
+
+Database: 
+we will use supabase that vercel created for us.
+and we will use prisma as intermediary to talk with supabase in a type-safe way.
+
+Auth:
+The entire webapp requires is behind a login-wall. 
+The auth should be simple login/password.
+No connection to other auth providers like google oauth etc. 
+See example auth here: https://github.com/nextauthjs/next-auth-example
+But again, the auth should not use fancy oauth stuff.
+We will use supabase auth
+
+Testing:
+We are doing TDD and we use playwright to test everything.
