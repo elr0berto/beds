@@ -1,8 +1,7 @@
-import { createClient } from "@/lib/supabase/server";
+import { prisma } from "@/lib/prisma";
 
 export default async function Page() {
-  const supabase = await createClient()
-  const { data: beds } = await supabase.from('beds').select()
+  const beds = await prisma.bed.findMany()
 
   return <pre>{JSON.stringify(beds, null, 2)}</pre>
 }

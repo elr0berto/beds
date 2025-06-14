@@ -13,16 +13,11 @@ Deployment:
 The app is deployed to vercel. but we develop locally.
 
 Database: 
-we will use supabase that vercel created for us.
+we will use supabase that vercel created for us. seems to already work.
 and we will use prisma as intermediary to talk with supabase in a type-safe way.
 
 Auth:
-The entire webapp requires is behind a login-wall. 
-The auth should be simple login/password.
-No connection to other auth providers like google oauth etc. 
-See example auth here: https://github.com/nextauthjs/next-auth-example
-But again, the auth should not use fancy oauth stuff.
-We will use supabase auth
+We will use supabase auth. seems to already work.
 
 Testing:
 We are doing TDD and we use playwright to test everything.
