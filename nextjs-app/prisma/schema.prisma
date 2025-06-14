@@ -18,6 +18,20 @@ model Bed {
   id    Int    @id @default(autoincrement())
   name  String @unique
   order Int    @default(0)
+  
+  statuses BedStatus[]
 
   @@map("beds")
+}
+
+model BedStatus {
+  id        Int      @id @default(autoincrement())
+  bedId     Int
+  startDate DateTime
+  endDate   DateTime
+  status    String
+  
+  bed Bed @relation(fields: [bedId], references: [id], onDelete: Cascade)
+
+  @@map("bed_status")
 }
