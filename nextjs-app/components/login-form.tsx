@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -64,7 +63,6 @@ export function LoginForm({
                 <Input
                   id="email"
                   type="email"
-                  placeholder="email..."
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
