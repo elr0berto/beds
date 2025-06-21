@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LoginForm } from "@/components/login-form";
+import LanguageSwitcher from "@/components/language-switcher";
 
 export default async function Page() {
   const supabase = await createClient();
@@ -11,6 +12,9 @@ export default async function Page() {
 
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+      <div className="absolute top-4 right-4">
+        <LanguageSwitcher />
+      </div>
       <div className="w-full max-w-sm">
         {user ? (
           <Card>
