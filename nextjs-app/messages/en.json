@@ -1,0 +1,14 @@
+{
+  "Common": {
+    "hello": "Hello"
+  },
+  "LoginForm": {
+    "title": "Login",
+    "description": "Enter your username below to login to your account",
+    "username": "Username",
+    "password": "Password",
+    "login": "Login",
+    "loggingIn": "Logging in...",
+    "genericError": "An error occurred"
+  }
+} 
