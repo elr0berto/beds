@@ -25,3 +25,5 @@ We are doing TDD and we use playwright to test everything.
 User interface for beds:
 Bed, patient reference, start time (default now), length (30 minute increments), free text comment/status
 -- ability to change length
+
+
