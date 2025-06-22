@@ -1,0 +1,3 @@
+# Project Cursor Rules
+
+* For every code change (feature, refactor, bug-fix, UI tweak, etc.) **always create or update Playwright end-to-end tests** that cover the new or altered behaviour. 
