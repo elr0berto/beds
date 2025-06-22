@@ -27,3 +27,8 @@ Bed, patient reference, start time (default now), length (30 minute increments),
 -- ability to change length
 
 
+TODO:
+
+logout button should indicate loading/progress
+
+login form gets enabled before redirecting the user 

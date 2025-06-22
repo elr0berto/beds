@@ -17,7 +17,7 @@ export default async function Page() {
       </div>
       <div className="w-full max-w-sm">
         {user ? (
-          <Card>
+          <Card data-testid="already-signed-in-card">
             <CardHeader>
               <CardTitle className="text-2xl">You&rsquo;re already signed in</CardTitle>
             </CardHeader>

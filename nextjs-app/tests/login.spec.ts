@@ -5,18 +5,18 @@ test.describe("Login page", () => {
     await page.goto("/auth/login");
 
     // Expect form inputs to be visible
-    await expect(page.getByLabel("Username")).toBeVisible();
-    await expect(page.getByLabel("Password")).toBeVisible();
+    await expect(page.getByTestId("username-input")).toBeVisible();
+    await expect(page.getByTestId("password-input")).toBeVisible();
     // And the submit button
-    await expect(page.getByRole("button", { name: "Login" })).toBeVisible();
+    await expect(page.getByTestId("login-submit")).toBeVisible();
   });
 
   test("should show an error with invalid credentials", async ({ page }) => {
     await page.goto("/auth/login");
 
-    await page.getByLabel("Username").fill("invalid-user");
-    await page.getByLabel("Password").fill("invalid-pass");
-    await page.getByRole("button", { name: "Login" }).click();
+    await page.getByTestId("username-input").fill("invalid-user");
+    await page.getByTestId("password-input").fill("invalid-pass");
+    await page.getByTestId("login-submit").click();
 
     // Supabase returns "Invalid login credentials" – that message should surface to the user
     await expect(page.locator("text=Invalid login credentials")).toBeVisible();
@@ -32,19 +32,19 @@ test.describe("Login page", () => {
   for (const { username, password } of validUsers) {
     test(`should allow ${username} to sign in and out successfully`, async ({ page }) => {
       await page.goto("/auth/login");
-      await page.getByLabel("Username").fill(username);
-      await page.getByLabel("Password").fill(password);
-      await page.getByRole("button", { name: "Login" }).click();
+      await page.getByTestId("username-input").fill(username);
+      await page.getByTestId("password-input").fill(password);
+      await page.getByTestId("login-submit").click();
 
       // Successful login redirects to the app root
       await page.waitForURL("/");
       await expect(page).toHaveURL("/");
 
       // The authenticated UI should display a logout button
-      await expect(page.getByRole("button", { name: "Logout" })).toBeVisible();
+      await expect(page.getByTestId("logout-button")).toBeVisible();
 
       // Sign out again to keep test state isolated
-      await page.getByRole("button", { name: "Logout" }).click();
+      await page.getByTestId("logout-button").click();
       await page.waitForURL("/auth/login");
     });
   }
@@ -52,9 +52,9 @@ test.describe("Login page", () => {
   test("should prompt signed-in users to sign out first when visiting /auth/login", async ({ page }) => {
     // Sign in first
     await page.goto("/auth/login");
-    await page.getByLabel("Username").fill("admin");
-    await page.getByLabel("Password").fill("admin");
-    await page.getByRole("button", { name: "Login" }).click();
+    await page.getByTestId("username-input").fill("admin");
+    await page.getByTestId("password-input").fill("admin");
+    await page.getByTestId("login-submit").click();
 
     // We should now be authenticated and at the root page
     await page.waitForURL("/");
@@ -63,7 +63,6 @@ test.describe("Login page", () => {
     await page.goto("/auth/login");
 
     // Expect a message telling the user they're already signed in
-    await expect(page.locator("text=already signed in")).toBeVisible();
-    await expect(page.locator("text=sign out first")).toBeVisible();
+    await expect(page.locator('[data-testid="already-signed-in-card"]')).toBeVisible();
   });
 }); 

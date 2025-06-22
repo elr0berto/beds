@@ -53,7 +53,9 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl">{t("title")}</CardTitle>
+          <CardTitle data-testid="login-form-title" className="text-2xl">
+            {t("title")}
+          </CardTitle>
           <CardDescription>{t("description")}</CardDescription>
         </CardHeader>
         <CardContent>
@@ -63,6 +65,7 @@ export function LoginForm({
                 <Label htmlFor="username">{t("username")}</Label>
                 <Input
                   id="username"
+                  data-testid="username-input"
                   type="text"
                   required
                   value={username}
@@ -75,6 +78,7 @@ export function LoginForm({
                 </div>
                 <Input
                   id="password"
+                  data-testid="password-input"
                   type="password"
                   required
                   value={password}
@@ -82,7 +86,12 @@ export function LoginForm({
                 />
               </div>
               {error && <p className="text-sm text-red-500">{error}</p>}
-              <Button type="submit" className="w-full" disabled={isLoading}>
+              <Button
+                type="submit"
+                data-testid="login-submit"
+                className="w-full"
+                disabled={isLoading}
+              >
                 {isLoading ? t("loggingIn") : t("login")}
               </Button>
             </div>
