@@ -44,7 +44,6 @@ export function LoginForm({
       router.push("/");
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : t("genericError"));
-    } finally {
       setIsLoading(false);
     }
   };
