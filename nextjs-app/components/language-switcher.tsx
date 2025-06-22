@@ -1,6 +1,14 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+} from "@/components/ui/dropdown-menu";
+import { ChevronDown } from "lucide-react";
 import { useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
 
@@ -17,21 +25,26 @@ export default function LanguageSwitcher() {
   };
 
   return (
-    <div className="flex gap-2 items-center">
-      <Button
-        variant={locale === "th" ? "default" : "outline"}
-        size="sm"
-        onClick={() => switchTo("th")}
-      >
-        ไทย
-      </Button>
-      <Button
-        variant={locale === "en" ? "default" : "outline"}
-        size="sm"
-        onClick={() => switchTo("en")}
-      >
-        EN
-      </Button>
-    </div>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="outline"
+          size="sm"
+          className="gap-1"
+        >
+          {locale === "en" ? "EN" : "ไทย"}
+          <ChevronDown className="size-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuRadioGroup
+          value={locale}
+          onValueChange={(v) => switchTo(v as "en" | "th")}
+        >
+          <DropdownMenuRadioItem value="th">ไทย</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="en">EN</DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 } 
