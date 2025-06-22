@@ -1,6 +1,13 @@
 {
   "Common": {
-    "hello": "Hello"
+    "hello": "Hello",
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "logout": "Logout",
+    "bedManagement": "Bed management",
+    "bedManagementSystem": "Bed management system",
+    "frontPage": "Front page",
+    "goBack": "Go back"
   },
   "LoginForm": {
     "title": "Login",
@@ -10,5 +17,17 @@
     "login": "Login",
     "loggingIn": "Logging in...",
     "genericError": "An error occurred"
+  },
+  "EnvVarWarning": {
+    "supabaseEnvVarsRequired": "Supabase environment variables required"
+  },
+  "LoginPage": {
+    "alreadySignedInTitle": "You're already signed in",
+    "alreadySignedInDescription": "Please sign out first if you want to switch accounts."
+  },
+  "AuthError": {
+    "genericTitle": "Sorry, something went wrong.",
+    "codeErrorPrefix": "Code error:",
+    "unspecified": "An unspecified error occurred."
   }
 } 

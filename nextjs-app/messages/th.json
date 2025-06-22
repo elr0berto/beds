@@ -1,6 +1,13 @@
 {
   "Common": {
-    "hello": "สวัสดี"
+    "hello": "สวัสดี",
+    "signIn": "เข้าสู่ระบบ",
+    "signUp": "สมัครสมาชิก",
+    "logout": "ออกจากระบบ",
+    "bedManagement": "การจัดการเตียง",
+    "bedManagementSystem": "ระบบจัดการเตียง",
+    "frontPage": "หน้าหลัก",
+    "goBack": "กลับ"
   },
   "LoginForm": {
     "title": "เข้าสู่ระบบ",
@@ -10,5 +17,17 @@
     "login": "เข้าสู่ระบบ",
     "loggingIn": "กำลังเข้าสู่ระบบ...",
     "genericError": "เกิดข้อผิดพลาด"
+  },
+  "EnvVarWarning": {
+    "supabaseEnvVarsRequired": "ต้องตั้งค่าตัวแปรสภาพแวดล้อมของ Supabase"
+  },
+  "LoginPage": {
+    "alreadySignedInTitle": "คุณได้เข้าสู่ระบบแล้ว",
+    "alreadySignedInDescription": "กรุณาออกจากระบบก่อนหากคุณต้องการเปลี่ยนบัญชี"
+  },
+  "AuthError": {
+    "genericTitle": "ขออภัย มีบางอย่างผิดพลาด",
+    "codeErrorPrefix": "รหัสข้อผิดพลาด:",
+    "unspecified": "เกิดข้อผิดพลาดที่ไม่ระบุ"
   }
 } 
