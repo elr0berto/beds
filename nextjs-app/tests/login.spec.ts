@@ -1,5 +1,11 @@
 import { test, expect } from "@playwright/test";
 
+// Load test credentials from environment variables with fallbacks for local runs
+const ADMIN_USERNAME = process.env.TEST_ADMIN_USERNAME ?? 'opd-admin';
+const ADMIN_PASSWORD = process.env.TEST_ADMIN_PASSWORD ?? 'admin';
+const USER_USERNAME = process.env.TEST_USER_USERNAME ?? 'opd-user';
+const USER_PASSWORD = process.env.TEST_USER_PASSWORD ?? 'user';
+
 test.describe("Login page", () => {
   test("should display username and password fields", async ({ page }) => {
     await page.goto("/auth/login");
@@ -25,8 +31,8 @@ test.describe("Login page", () => {
   });
 
   const validUsers: { username: string; password: string }[] = [
-    { username: "admin", password: "admin" },
-    { username: "user", password: "user" },
+    { username: ADMIN_USERNAME, password: ADMIN_PASSWORD },
+    { username: USER_USERNAME, password: USER_PASSWORD },
   ];
 
   for (const { username, password } of validUsers) {
@@ -52,8 +58,8 @@ test.describe("Login page", () => {
   test("should prompt signed-in users to sign out first when visiting /auth/login", async ({ page }) => {
     // Sign in first
     await page.goto("/auth/login");
-    await page.getByTestId("username-input").fill("admin");
-    await page.getByTestId("password-input").fill("admin");
+    await page.getByTestId("username-input").fill(ADMIN_USERNAME);
+    await page.getByTestId("password-input").fill(ADMIN_PASSWORD);
     await page.getByTestId("login-submit").click();
 
     // We should now be authenticated and at the root page

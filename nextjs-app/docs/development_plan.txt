@@ -30,8 +30,8 @@ Bed, patient reference, start time (default now), length (30 minute increments),
 TODO:
 
 Add something to the users/auth to indicate if they are admins or regular users.
--- looks like the auth's schema is somewhat protected (it cant be edited by table editor, only sql editor)
--- create a public.users table instead. use email + role columns? 
+-- lets stick with the username itself indicating the role. "user" in the username means regular user.
+"admin" means admin.
 
 
 Figure out how to test CRUD stuff when there's already data?!
