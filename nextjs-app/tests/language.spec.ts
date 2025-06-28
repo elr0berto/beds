@@ -33,12 +33,13 @@ test.describe("Language switcher loading state", () => {
     // Click English option to initiate locale switch
     await page.getByRole("menuitemradio", { name: "EN" }).click();
 
-    // Locator for the button that now contains the spinner
-    const spinnerButton = page.locator("button:has(svg.animate-spin)");
+    // Wait for the spinner to appear, indicating the loading state
+    const spinner = page.locator("svg.animate-spin");
+    await expect(spinner).toBeVisible();
 
-    // Expect spinner visible and button disabled
+    // The button that contains the spinner should be disabled while loading
+    const spinnerButton = spinner.locator("xpath=ancestor::button[1]");
     await expect(spinnerButton).toBeDisabled();
-    await expect(spinnerButton.locator("svg.animate-spin")).toBeVisible();
 
     // Wait until the title appears in English to confirm refresh is done
     await expect(page.getByTestId("login-form-title")).toHaveText("Login");
