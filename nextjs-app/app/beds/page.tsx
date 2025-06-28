@@ -16,6 +16,7 @@ export default async function Page() {
   return (
     <PageLayout>
       <pre>{JSON.stringify(beds, null, 2)}</pre>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
     </PageLayout>
   );
 }

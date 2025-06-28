@@ -29,6 +29,12 @@ Bed, patient reference, start time (default now), length (30 minute increments),
 
 TODO:
 
-logout button should indicate loading/progress
+Add something to the users/auth to indicate if they are admins or regular users.
+-- looks like the auth's schema is somewhat protected (it cant be edited by table editor, only sql editor)
+-- create a public.users table instead. use email + role columns? 
 
-login form gets enabled before redirecting the user 
+
+Figure out how to test CRUD stuff when there's already data?!
+Make a plan for a user interface for the configuration page for beds
+Write tests for the configuration page
+Write code for the configuration page
