@@ -81,4 +81,26 @@ test.describe.serial("Bed status manager page – Grid View (serial)", () => {
 
     await expect(page.getByTestId("no-beds-message")).toBeVisible();
   });
+
+  test("does not show 'no beds' message when there are beds", async ({ page }) => {
+    const bedName = `Header Test Bed ${Date.now()}`;
+    await createBed(bedName);
+
+    await loginAsUser(page);
+    await page.goto("/bed-status-manager");
+
+    await expect(page.getByTestId("no-beds-message")).not.toBeVisible();
+  });
+
+  test("displays hour header from 08:00 to 22:00", async ({ page }) => {
+    const bedName = `Header Test Bed ${Date.now()}`;
+    await createBed(bedName);
+
+    await loginAsUser(page);
+    await page.goto("/bed-status-manager");
+
+    // Expect header cells for 08:00 and 22:00 to be visible
+    await expect(page.getByText("08:00")).toBeVisible();
+    await expect(page.getByText("22:00")).toBeVisible();
+  });
 }); 
