@@ -29,5 +29,20 @@
     "genericTitle": "Sorry, something went wrong.",
     "codeErrorPrefix": "Code error:",
     "unspecified": "An unspecified error occurred."
+  },
+  "BedsAdmin": {
+    "title": "Bed management",
+    "addBed": "Add Bed",
+    "editBed": "Edit Bed",
+    "bedAdded": "Bed added",
+    "bedUpdated": "Bed updated",
+    "bedDeleted": "Bed deleted",
+    "orderSaved": "Order saved",
+    "noBeds": "No beds yet",
+    "deleteBed": "Delete bed '{name}'?",
+    "deleteWarning": "This cannot be undone.",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete"
   }
 } 

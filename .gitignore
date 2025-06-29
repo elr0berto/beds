@@ -137,3 +137,5 @@ dist
 nextjs-app/docs/accounts.txt
 
 secrets
+.env.local.supabase
+.idea

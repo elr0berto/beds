@@ -29,5 +29,20 @@
     "genericTitle": "ขออภัย มีบางอย่างผิดพลาด",
     "codeErrorPrefix": "รหัสข้อผิดพลาด:",
     "unspecified": "เกิดข้อผิดพลาดที่ไม่ระบุ"
+  },
+  "BedsAdmin": {
+    "title": "การจัดการเตียง",
+    "addBed": "เพิ่มเตียง",
+    "editBed": "แก้ไขเตียง",
+    "bedAdded": "เพิ่มเตียงแล้ว",
+    "bedUpdated": "อัปเดตเตียงแล้ว",
+    "bedDeleted": "ลบเตียงแล้ว",
+    "orderSaved": "บันทึกลำดับแล้ว",
+    "noBeds": "ยังไม่มีเตียง",
+    "deleteBed": "ลบเตียง '{name}'?",
+    "deleteWarning": "ไม่สามารถกู้คืนได้",
+    "cancel": "ยกเลิก",
+    "save": "บันทึก",
+    "delete": "ลบ"
   }
 } 

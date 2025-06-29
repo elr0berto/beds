@@ -1,0 +1,49 @@
+Revised User-Interface Design Document
+Admin – “Beds” Management Page (simplified)
+Purpose & Audience
+Purpose: Let administrators quickly Create, Read, Update, Delete (CRUD) and reorder “Bed” records in the beds table.
+Audience: Internal staff working mainly on desktop screens.
+Entry & Navigation
+Navigation item: “Admin” → “Beds”.
+Page Title: “Beds Management”.
+Page Layout (Desktop)
+┌────────────────────────────────────────────────────────────┐
+│ Header: page title on left • “Add Bed” primary button on right│
+├────────────────────────────────────────────────────────────┤
+│ Beds Table (drag-sortable list) │
+└────────────────────────────────────────────────────────────┘
+Core UI Components & Behaviour
+4.1 Add Bed
+“Add Bed” button opens a modal with a single “Name” input.
+Buttons: “Save” (primary) and “Cancel”.
+Validation: name is required and unique (checked on blur or on save).
+On success: close modal, show toast “Bed added”, insert new row at the bottom (or appropriate order).
+4.2 Beds Table
+Columns:
+Drag Handle – used to reorder rows by dragging.
+Name
+Actions – “Edit” (pencil) and “Delete” (trash).
+Interactions:
+Drag-and-drop rows to change order. Dropping a row sends a PATCH to /beds/reorder; on success, toast “Order saved”.
+Clicking “Edit” opens the same modal pre-filled with the bed name. “Save” updates the row immediately.
+Clicking “Delete” opens a confirmation dialog; “Delete” permanently removes the row and shows toast “Bed deleted”.
+Empty state: simple message “No beds yet” with an “Add Bed” button.
+4.3 Modals & Dialogs
+Add / Edit modal width ~420 px, vertical center.
+Delete confirmation dialog: title “Delete bed ‘{name}’?”, body text “This cannot be undone.”, buttons “Cancel” (secondary) and “Delete” (destructive).
+Visual & Interaction Details
+Use existing design-system tokens for spacing, typography, colors.
+Primary buttons (green), secondary buttons (gray), destructive buttons (red).
+Table rows change background color on hover for clarity.
+Toast notifications appear bottom-right and auto-dismiss after 4 s.
+Non-Functional Requirements
+Performance: Optimistic UI updates so the list feels instant (<200 ms perceived).
+Security: Only users with admin role can access /admin/beds route.
+Internationalization: Labels pulled from existing message files (en, th).
+Testing: Playwright end-to-end tests covering add, edit, delete, reorder scenarios.
+Out-of-Scope Elements (explicitly excluded)
+✗ Search or filters
+✗ Pagination
+✗ Dedicated accessibility accommodations
+✗ Mobile-specific layouts (page optimized for desktop use only)
+This streamlined plan focuses purely on CRUD and drag-reorder, keeping the interface minimal and fast for administrators.

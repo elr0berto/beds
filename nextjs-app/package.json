@@ -2,11 +2,15 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "dev:local:supabase": "dotenvx run -f .env.local.supabase -f .env -- next dev --turbopack",
     "build": "next build",
     "vercel-build": "prisma generate && prisma migrate deploy && next build",
     "start": "next start",
     "lint": "next lint",
     "test:e2e": "playwright test",
+    "test:e2e:local:supabase": "dotenvx run -f .env.local.supabase -f .env -- playwright test",
+    "prisma:migrate:dev": "prisma migrate dev",
+    "prisma:migrate:dev:local:supabase": "dotenvx run -f .env.local.supabase -f .env -- prisma migrate dev",
     "postinstall": "prisma generate"
   },
   "dependencies": {
@@ -29,6 +33,7 @@
     "tailwind-merge": "^3.3.0"
   },
   "devDependencies": {
+    "@dotenvx/dotenvx": "^1.45.1",
     "@eslint/eslintrc": "^3",
     "@playwright/test": "^1.53.1",
     "@types/node": "^20",
