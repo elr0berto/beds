@@ -39,10 +39,11 @@
     "bedDeleted": "ลบเตียงแล้ว",
     "orderSaved": "บันทึกลำดับแล้ว",
     "noBeds": "ยังไม่มีเตียง",
-    "deleteBed": "ลบเตียง '{name}'?",
+    "deleteBed": "ลบเตียง {name}?",
     "deleteWarning": "ไม่สามารถกู้คืนได้",
     "cancel": "ยกเลิก",
     "save": "บันทึก",
-    "delete": "ลบ"
+    "delete": "ลบ",
+    "duplicateNameError": "มีเตียงชื่อนี้อยู่แล้ว"
   }
 } 

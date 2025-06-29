@@ -154,4 +154,101 @@ test.describe("Admin › Beds CRUD and reorder", () => {
     // Expect to be redirected to /auth/login
     await expect(page.url()).toContain("/auth/login");
   });
+
+  test("shows error when adding a bed with a duplicate name", async ({ page }) => {
+    await loginAsAdmin(page);
+    await page.goto("/admin/beds");
+
+    const bedName = `Duplicate Bed ${Date.now()}`;
+
+    // First creation should succeed
+    await page.getByTestId("add-bed-button").click();
+    await page.getByTestId("bed-name-input").fill(bedName);
+    await page.getByTestId("bed-save-button").click();
+    await expect(page.getByTestId("bed-added-toast")).toBeVisible();
+
+    // Attempt to create again with the same name
+    await page.getByTestId("add-bed-button").click();
+    await page.getByTestId("bed-name-input").fill(bedName);
+    await page.getByTestId("bed-save-button").click();
+
+    await expect(page.getByTestId("duplicate-name-error")).toBeVisible();
+  });
+
+  test("shows error when editing a bed to a duplicate name", async ({ page }) => {
+    await loginAsAdmin(page);
+    await page.goto("/admin/beds");
+
+    const bed1 = `EditDup Bed1 ${Date.now()}`;
+    const bed2 = `EditDup Bed2 ${Date.now()}`;
+
+    async function createBed(name: string) {
+      await page.getByTestId("add-bed-button").click();
+      await page.getByTestId("bed-name-input").fill(name);
+      await page.getByTestId("bed-save-button").click();
+      await expect(page.getByTestId("bed-added-toast")).toBeVisible();
+    }
+
+    // Ensure two distinct beds exist
+    await createBed(bed1);
+    await createBed(bed2);
+
+    // Edit second bed, attempt to rename to duplicate of first
+    const targetRow = page.getByTestId("bed-row").filter({ hasText: bed2 });
+    await targetRow.getByTestId("edit-bed-button").click();
+
+    await page.getByTestId("bed-name-input").fill(bed1);
+    await page.getByTestId("bed-save-button").click();
+
+    // Expect duplicate error toast
+    await expect(page.getByTestId("duplicate-name-error")).toBeVisible();
+
+    // Modal should remain open (optional), ensure the save button still visible indicating not closed
+    await expect(page.getByTestId("bed-save-button")).toBeVisible();
+  });
+
+  test("edit modal title contains bed name", async ({ page }) => {
+    await loginAsAdmin(page);
+    await page.goto("/admin/beds");
+
+    const bedName = `Modal Edit Bed ${Date.now()}`;
+
+    // Create a new bed so we know the exact name
+    await page.getByTestId("add-bed-button").click();
+    await page.getByTestId("bed-name-input").fill(bedName);
+    await page.getByTestId("bed-save-button").click();
+    await expect(page.getByTestId("bed-added-toast")).toBeVisible();
+
+    // Open edit modal for that bed
+    const row = page.getByTestId("bed-row").filter({ hasText: bedName });
+    await row.getByTestId("edit-bed-button").click();
+
+    // Modal title should include the bed name
+    await expect(page.getByTestId("edit-bed-modal-title")).toContainText(bedName);
+
+    // Close the modal to clean up (click Cancel)
+    await page.getByTestId("bed-cancel-add-edit-button").click();
+  });
+
+  test("delete modal title contains bed name", async ({ page }) => {
+    await loginAsAdmin(page);
+    await page.goto("/admin/beds");
+
+    const bedName = `Modal Delete Bed ${Date.now()}`;
+
+    // Create a bed to delete
+    await page.getByTestId("add-bed-button").click();
+    await page.getByTestId("bed-name-input").fill(bedName);
+    await page.getByTestId("bed-save-button").click();
+    await expect(page.getByTestId("bed-added-toast")).toBeVisible();
+
+    const row = page.getByTestId("bed-row").filter({ hasText: bedName });
+    await row.getByTestId("delete-bed-button").click();
+
+    // Delete confirmation modal should include bed name
+    await expect(page.getByTestId("delete-bed-modal-title")).toContainText(bedName);
+
+    // Close dialog by cancelling to avoid side-effects
+    await page.getByTestId("bed-cancel-delete-button").click();
+  });
 }); 

@@ -5,6 +5,9 @@ import { hasEnvVars } from "@/lib/utils";
 import Link from "next/link";
 import { ReactNode } from "react";
 import { getTranslations } from "next-intl/server";
+import { Cog } from "lucide-react";
+import { createClient } from "@/lib/supabase/server";
+import { isAdmin } from "@/lib/roles";
 
 interface PageLayoutProps {
   children: ReactNode;
@@ -12,6 +15,16 @@ interface PageLayoutProps {
 
 export async function PageLayout({ children }: PageLayoutProps) {
   const tCommon = await getTranslations("Common");
+
+  // Determine whether the current visitor is an authenticated admin
+  let showAdminLink = false;
+  if (hasEnvVars) {
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    showAdminLink = !!user && isAdmin(user);
+  }
 
   return (
     <main className="min-h-screen flex flex-col items-center">
@@ -23,6 +36,16 @@ export async function PageLayout({ children }: PageLayoutProps) {
             </Link>
 
             <div className="flex items-center gap-4">
+              {showAdminLink && (
+                <Link
+                  href="/admin/beds"
+                  aria-label="Admin beds"
+                  data-testid="admin-beds-link"
+                  className="hover:opacity-80 transition-opacity"
+                >
+                  <Cog className="w-5 h-5" />
+                </Link>
+              )}
               <LanguageSwitcher />
               {!hasEnvVars ? <EnvVarWarning /> : <AuthButton />}
             </div>

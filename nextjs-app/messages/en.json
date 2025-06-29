@@ -39,10 +39,11 @@
     "bedDeleted": "Bed deleted",
     "orderSaved": "Order saved",
     "noBeds": "No beds yet",
-    "deleteBed": "Delete bed '{name}'?",
+    "deleteBed": "Delete bed {name}?",
     "deleteWarning": "This cannot be undone.",
     "cancel": "Cancel",
     "save": "Save",
-    "delete": "Delete"
+    "delete": "Delete",
+    "duplicateNameError": "A bed with that name already exists"
   }
 } 

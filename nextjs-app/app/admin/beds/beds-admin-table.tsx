@@ -33,6 +33,7 @@ export default function BedsAdminTable({
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<"add" | "edit">("add");
   const [nameInput, setNameInput] = useState("");
+  const [error, setError] = useState<string | null>(null);
   const [editingBedId, setEditingBedId] = useState<number | null>(null);
 
   // Delete confirmation state
@@ -48,6 +49,7 @@ export default function BedsAdminTable({
   function openAddModal() {
     setModalMode("add");
     setNameInput("");
+    setError(null);
     setEditingBedId(null);
     setModalOpen(true);
   }
@@ -55,6 +57,7 @@ export default function BedsAdminTable({
   function openEditModal(bed: BedRow) {
     setModalMode("edit");
     setNameInput(bed.name);
+    setError(null);
     setEditingBedId(bed.id);
     setModalOpen(true);
   }
@@ -68,19 +71,36 @@ export default function BedsAdminTable({
 
     if (modalMode === "add") {
       startTransition(async () => {
-        const newBed: BedRow = await addBed(nameInput.trim());
-        setBeds((prev) => [...prev, newBed]);
-        showToast(t("bedAdded"), "bed-added-toast");
-        closeModal();
+        try {
+          const newBed: BedRow = await addBed(nameInput.trim());
+          setBeds((prev) => [...prev, newBed]);
+          showToast(t("bedAdded"), "bed-added-toast");
+          closeModal();
+        } catch (err) {
+          if ((err as Error).message === "DUPLICATE_BED_NAME") {
+            setError(t("duplicateNameError"));
+          } else {
+            // Re-throw unexpected errors so they surface in logs
+            throw err;
+          }
+        }
       });
     } else if (modalMode === "edit" && editingBedId !== null) {
       startTransition(async () => {
-        const updated: BedRow = await editBed(editingBedId, nameInput.trim());
-        setBeds((prev) =>
-          prev.map((b) => (b.id === editingBedId ? updated : b)),
-        );
-        showToast(t("bedUpdated"), "bed-updated-toast");
-        closeModal();
+        try {
+          const updated: BedRow = await editBed(editingBedId, nameInput.trim());
+          setBeds((prev) =>
+            prev.map((b) => (b.id === editingBedId ? updated : b)),
+          );
+          showToast(t("bedUpdated"), "bed-updated-toast");
+          closeModal();
+        } catch (err) {
+          if ((err as Error).message === "DUPLICATE_BED_NAME") {
+            setError(t("duplicateNameError"));
+          } else {
+            throw err;
+          }
+        }
       });
     }
   }
@@ -183,17 +203,33 @@ export default function BedsAdminTable({
       {modalOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white dark:bg-background rounded-md shadow-md p-6 w-80 space-y-4">
-            <h2 className="text-lg font-semibold">
-              {modalMode === "add" ? t("addBed") : t("editBed")}
+            <h2
+              className="text-lg font-semibold"
+              data-testid={modalMode === "add" ? "add-bed-modal-title" : "edit-bed-modal-title"}
+            >
+              {modalMode === "add"
+                ? t("addBed")
+                : `${t("editBed")} '${nameInput}'`}
             </h2>
             <Input
               data-testid="bed-name-input"
               value={nameInput}
-              onChange={(e) => setNameInput(e.target.value)}
+              onChange={(e) => {
+                setNameInput(e.target.value);
+                if (error) setError(null);
+              }}
               disabled={isPending}
             />
+            {error && (
+              <p
+                data-testid="duplicate-name-error"
+                className="text-red-600 text-sm mt-1"
+              >
+                {error}
+              </p>
+            )}
             <div className="flex justify-end gap-2">
-              <Button variant="secondary" onClick={closeModal} disabled={isPending}>
+              <Button data-testid="bed-cancel-add-edit-button" variant="secondary" onClick={closeModal} disabled={isPending}>
                 {t("cancel")}
               </Button>
               <Button
@@ -212,12 +248,15 @@ export default function BedsAdminTable({
       {deleteTarget && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white dark:bg-background rounded-md shadow-md p-6 w-80 space-y-4">
-            <h2 className="text-lg font-semibold">
+            <h2
+              className="text-lg font-semibold"
+              data-testid="delete-bed-modal-title"
+            >
               {t("deleteBed", { name: deleteTarget.name })}
             </h2>
             <p>{t("deleteWarning")}</p>
             <div className="flex justify-end gap-2">
-              <Button variant="secondary" onClick={() => setDeleteTarget(null)}>
+              <Button data-testid="bed-cancel-delete-button" variant="secondary" onClick={() => setDeleteTarget(null)}>
                 {t("cancel")}
               </Button>
               <Button
