@@ -1,10 +1,10 @@
 import { test, expect } from "@playwright/test";
 
 // Load test credentials from environment variables with fallbacks for local runs
-const ADMIN_USERNAME = process.env.TEST_ADMIN_USERNAME ?? 'opd-admin';
-const ADMIN_PASSWORD = process.env.TEST_ADMIN_PASSWORD ?? 'admin';
-const USER_USERNAME = process.env.TEST_USER_USERNAME ?? 'opd-user';
-const USER_PASSWORD = process.env.TEST_USER_PASSWORD ?? 'user';
+const ADMIN_USERNAME = process.env.TEST_ADMIN_USERNAME ?? '';
+const ADMIN_PASSWORD = process.env.TEST_ADMIN_PASSWORD ?? '';
+const USER_USERNAME = process.env.TEST_USER_USERNAME ?? '';
+const USER_PASSWORD = process.env.TEST_USER_PASSWORD ?? '';
 
 test.describe("Login page", () => {
   test("should display username and password fields", async ({ page }) => {

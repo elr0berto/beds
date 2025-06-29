@@ -4,8 +4,8 @@ import { test, expect } from "@playwright/test";
 // while the sign-out request is in progress.
 
 // Load admin credentials from environment variables with sensible defaults for local runs
-const ADMIN_USERNAME = process.env.TEST_ADMIN_USERNAME ?? 'opd-admin';
-const ADMIN_PASSWORD = process.env.TEST_ADMIN_PASSWORD ?? 'admin';
+const ADMIN_USERNAME = process.env.TEST_ADMIN_USERNAME ?? '';
+const ADMIN_PASSWORD = process.env.TEST_ADMIN_PASSWORD ?? '';
 
 test.describe("Logout button loading state", () => {
   test("should show spinner and be disabled while signing out", async ({ page }) => {

@@ -1,11 +1,11 @@
 import { test, expect, type Page } from "@playwright/test";
 
 // Use environment-provided credentials when available so tests run in all envs
-const ADMIN_USERNAME = process.env.TEST_ADMIN_USERNAME ?? "opd-admin";
-const ADMIN_PASSWORD = process.env.TEST_ADMIN_PASSWORD ?? "admin";
+const ADMIN_USERNAME = process.env.TEST_ADMIN_USERNAME ?? '';
+const ADMIN_PASSWORD = process.env.TEST_ADMIN_PASSWORD ?? '';
 
-const USER_USERNAME = process.env.TEST_USER_USERNAME ?? "opd-user";
-const USER_PASSWORD = process.env.TEST_USER_PASSWORD ?? "user";
+const USER_USERNAME = process.env.TEST_USER_USERNAME ?? '';
+const USER_PASSWORD = process.env.TEST_USER_PASSWORD ?? '';
 
 // Utility function to sign the current Playwright page in as an admin
 async function loginAsAdmin(page: Page) {
