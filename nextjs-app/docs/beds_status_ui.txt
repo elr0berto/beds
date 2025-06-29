@@ -1,0 +1,23 @@
+Bed Status UI – Development Plan
+
+Main Goals:
+1. Show a list or table of all beds.
+2. Display today's status schedule for each bed (the view implicitly resets daily).
+3. Allow multiple statuses per bed per day (schedule-like behavior).
+4. Provide a way to add a status to a bed:
+   • Prompt for start time (default = now).
+   • Prompt for duration via dropdown (15-minute increments, 15 min → 10 h).
+   • Prompt for free-text status description.
+5. Persist new statuses to the database and update the UI immediately.
+6. In the overview, clearly indicate:
+   • Duration of each status block.
+   • Whether the status is currently active.
+   • Time remaining until the next status or until the bed becomes free.
+7. Enable editing of existing status entries.
+8. Prevent overlapping statuses on add/edit and display a clear error message if overlap is detected.
+9. Support deleting a status (e.g., click the status block to open an edit/delete modal).
+
+UI Ideas:
+• Grid layout: 2-3 rows with ~10 beds per row.
+• Each bed is rendered as a block (similar to a Google Calendar or school schedule cell).
+• Within each bed block, individual statuses are shown as sub-blocks spanning their time ranges.

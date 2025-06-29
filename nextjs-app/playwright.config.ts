@@ -30,10 +30,30 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
+    // ---------------------------------------------------------------------
+    // Default project – runs the vast majority of tests in parallel
+    // ---------------------------------------------------------------------
     {
       name: 'chromium',
+      // Ignore the serial sub-folder that contains destructive DB tests.
+      testIgnore: /tests\/serial\//,
       use: { ...devices['Desktop Chrome'] },
-    }
+    },
+
+    // ---------------------------------------------------------------------
+    // Serial project – used for tests that wipe shared DB state.
+    // Runs in a single worker and *after* the default project.
+    // ---------------------------------------------------------------------
+    {
+      name: 'chromium-db-serial',
+      // Only run tests placed in the serial folder
+      testDir: './tests/serial',
+      fullyParallel: false,
+      workers: 1,
+      // Ensure this project starts after the main one to avoid overlap
+      dependencies: ['chromium'],
+      use: { ...devices['Desktop Chrome'] },
+    },
 
     /* Test against mobile viewports. */
     // {
