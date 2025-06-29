@@ -235,7 +235,7 @@ export default function BedsAdminTable({
 
       {/* Toast */}
       {toast && (
-        <div data-testid={toastTestId ?? "toast"} className="fixed bottom-4 right-4 bg-gray-800 text-white rounded px-4 py-2">
+        <div data-testid={toastTestId} className="fixed bottom-4 right-4 bg-gray-800 text-white rounded px-4 py-2">
           {toast}
         </div>
       )}
