@@ -15,9 +15,17 @@ export function LogoutButton() {
 
   const logout = async () => {
     setLoading(true);
-    const supabase = createClient();
-    await supabase.auth.signOut({ scope: "local" });
-    router.push("/auth/login");
+    try {
+      const supabase = createClient();
+      await supabase.auth.signOut({ scope: "local" });
+      router.push("/auth/login");
+    } catch (error) {
+      console.error('Logout error:', error);
+      // Even if logout fails, redirect to login page
+      router.push("/auth/login");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
