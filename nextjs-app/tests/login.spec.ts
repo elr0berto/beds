@@ -30,13 +30,13 @@ test.describe("Login page", () => {
     await expect(page).toHaveURL(/\/auth\/login$/);
   });
 
-  const validUsers: { username: string; password: string }[] = [
-    { username: ADMIN_USERNAME, password: ADMIN_PASSWORD },
-    { username: USER_USERNAME, password: USER_PASSWORD },
+  const validUsers: { username: string; password: string; name: string }[] = [
+    { username: ADMIN_USERNAME, password: ADMIN_PASSWORD, name: "admin" },
+    { username: USER_USERNAME, password: USER_PASSWORD, name: "user" },
   ];
 
-  for (const { username, password } of validUsers) {
-    test(`should allow ${username} to sign in and out successfully`, async ({ page }) => {
+  for (const { username, password, name } of validUsers) {
+    test(`should allow ${name} to sign in and out successfully`, async ({ page }: { page: any }) => {
       await page.goto("/auth/login");
       await page.getByTestId("username-input").fill(username);
       await page.getByTestId("password-input").fill(password);

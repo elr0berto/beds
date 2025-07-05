@@ -39,6 +39,15 @@ export async function PageLayout({ children }: PageLayoutProps) {
 
             <div className="flex items-center gap-4">
               {showAdminLink && (
+                <Link
+                  href="/bed-status-manager"
+                  data-testid="bed-status-manager-link"
+                  className="hover:opacity-80 transition-opacity text-sm"
+                >
+                  {tCommon("bedStatusManager")}
+                </Link>
+              )}
+              {showAdminLink && (
                 isUserAdmin ? (
                   <Link
                     href="/admin/beds"

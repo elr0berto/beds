@@ -3,6 +3,7 @@ import { Geist } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
+import { ClientLayout } from "@/components/client-layout";
 import "./globals.css";
 
 const defaultUrl = process.env.VERCEL_URL
@@ -38,7 +39,9 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            {children}
+            <ClientLayout>
+              {children}
+            </ClientLayout>
           </ThemeProvider>
         </NextIntlClientProvider>
       </body>
