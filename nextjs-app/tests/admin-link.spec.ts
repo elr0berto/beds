@@ -37,12 +37,20 @@ test.describe("Navbar – admin link", () => {
     await expect(page).toHaveURL("/admin/beds");
   });
 
-  test("hides cog link for regular users", async ({ page }) => {
+  test("shows disabled cog link for regular users", async ({ page }) => {
     await loginAsUser(page);
 
     await page.goto("/");
 
-    await expect(page.getByTestId("admin-beds-link")).toHaveCount(0);
+    const adminLink = page.getByTestId("admin-beds-link");
+    await expect(adminLink).toBeVisible();
+    
+    // Verify it's disabled (rendered as span, not clickable)
+    await expect(adminLink).toHaveAttribute("aria-label", "Admin beds (disabled)");
+    
+    // Verify it doesn't navigate when clicked
+    await adminLink.click();
+    await expect(page).toHaveURL("/"); // Should stay on same page
   });
 
   test("hides cog link when not signed in", async ({ page }) => {
