@@ -7,7 +7,7 @@ import { ReactNode } from "react";
 import { getTranslations } from "next-intl/server";
 import { Cog } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
-import { isAdmin } from "@/lib/roles";
+import { isAdmin, getUsername } from "@/lib/roles";
 
 interface PageLayoutProps {
   children: ReactNode;
@@ -19,14 +19,14 @@ export async function PageLayout({ children }: PageLayoutProps) {
   // Determine whether the current visitor is authenticated and their role
   let showAdminLink = false;
   let isUserAdmin = false;
-  if (hasEnvVars) {
-    const supabase = await createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    showAdminLink = !!user; // Show for any signed-in user
-    isUserAdmin = !!user && isAdmin(user); // Check if user is admin
-  }
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  showAdminLink = !!user; // Show for any signed-in user
+  isUserAdmin = !!user && isAdmin(user); // Check if user is admin
+  
+  const username = user ? getUsername(user) : undefined;
 
   return (
     <main className="min-h-screen flex flex-col items-center">
@@ -36,6 +36,12 @@ export async function PageLayout({ children }: PageLayoutProps) {
             <Link href="/" className="font-bold">
               {tCommon("bedManagement")}
             </Link>
+
+            {username && (
+              <div className="text-sm text-foreground/50">
+                {tCommon("signedInAs", {username})}
+              </div>
+            )}
 
             <div className="flex items-center gap-4">
               {showAdminLink && (
@@ -63,7 +69,7 @@ export async function PageLayout({ children }: PageLayoutProps) {
             </div>
           </div>
         </nav>
-        <div className="flex-1 flex flex-col gap-20 max-w-7xl p-5">
+        <div className="flex-1 flex flex-col gap-20 max-w-7xl p-5 w-full">
           <main className="flex-1 flex flex-col gap-6 px-4">
             {children}
           </main>

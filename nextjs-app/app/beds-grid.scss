@@ -1,0 +1,44 @@
+.beds-grid {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    gap: 0.7rem;
+    align-items: center;
+    
+    .bed-name {
+        grid-column: 1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        text-align: right;
+        padding-right: 0.7rem;
+        
+        .bed-add-button {
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            font-size: 0.6rem;
+            padding: 0.1rem 0.3rem;
+            margin-left: 0.2rem;
+            min-width: auto;
+            height: auto;
+            border-radius: 0.25rem;
+        }
+        
+        &:hover .bed-add-button {
+            opacity: 1;
+        }
+    }
+    
+    .bed-statuses {
+        grid-column: 2;
+        border-radius: 0.8rem;
+        border: 1px solid #ccc;
+        height: 3rem;
+        min-height: 3rem;
+        max-height: 3rem;
+        
+        &.bed-statuses-available {
+            background-color: #ebf0e5;
+        }
+    }
+}

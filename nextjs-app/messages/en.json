@@ -7,7 +7,8 @@
     "bedManagement": "Bed management",
     "bedManagementSystem": "Bed management system",
     "frontPage": "Front page",
-    "goBack": "Go back"
+    "goBack": "Go back",
+    "signedInAs": "Signed in as {username}"
   },
   "LoginForm": {
     "title": "Login",
@@ -45,5 +46,8 @@
     "save": "Save",
     "delete": "Delete",
     "duplicateNameError": "A bed with that name already exists"
+  },
+  "BedsManager": {
+    "noBeds": "No beds yet"
   }
 } 

@@ -7,7 +7,8 @@
     "bedManagement": "การจัดการเตียง",
     "bedManagementSystem": "ระบบจัดการเตียง",
     "frontPage": "หน้าหลัก",
-    "goBack": "กลับ"
+    "goBack": "กลับ",
+    "signedInAs": "เข้าสู่ระบบเป็น {username}"
   },
   "LoginForm": {
     "title": "เข้าสู่ระบบ",
@@ -45,5 +46,8 @@
     "save": "บันทึก",
     "delete": "ลบ",
     "duplicateNameError": "มีเตียงชื่อนี้อยู่แล้ว"
+  },
+  "BedsManager": {
+    "noBeds": "ยังไม่มีเตียง"
   }
 } 
