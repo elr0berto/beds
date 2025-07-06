@@ -1,11 +1,13 @@
 import { EnvVarWarning } from "@/components/env-var-warning";
 import { AuthButton } from "@/components/auth-button";
 import LanguageSwitcher from "@/components/language-switcher";
-import { AdminLink } from "@/components/admin-link";
 import { hasEnvVars } from "@/lib/utils";
 import Link from "next/link";
 import { ReactNode } from "react";
 import { getTranslations } from "next-intl/server";
+import { Cog } from "lucide-react";
+import { createClient } from "@/lib/supabase/server";
+import { isAdmin } from "@/lib/roles";
 
 interface PageLayoutProps {
   children: ReactNode;
@@ -13,6 +15,18 @@ interface PageLayoutProps {
 
 export async function PageLayout({ children }: PageLayoutProps) {
   const tCommon = await getTranslations("Common");
+
+  // Determine whether the current visitor is authenticated and their role
+  let showAdminLink = false;
+  let isUserAdmin = false;
+  if (hasEnvVars) {
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    showAdminLink = !!user; // Show for any signed-in user
+    isUserAdmin = !!user && isAdmin(user); // Check if user is admin
+  }
 
   return (
     <main className="min-h-screen flex flex-col items-center">
@@ -24,7 +38,26 @@ export async function PageLayout({ children }: PageLayoutProps) {
             </Link>
 
             <div className="flex items-center gap-4">
-              {hasEnvVars && <AdminLink />}
+              {showAdminLink && (
+                isUserAdmin ? (
+                  <Link
+                    href="/admin/beds"
+                    aria-label="Admin beds"
+                    data-testid="admin-beds-link"
+                    className="hover:opacity-80 transition-opacity"
+                  >
+                    <Cog className="w-5 h-5" />
+                  </Link>
+                ) : (
+                  <span
+                    aria-label="Admin beds (disabled)"
+                    data-testid="admin-beds-link"
+                    className="opacity-50 cursor-not-allowed"
+                  >
+                    <Cog className="w-5 h-5" />
+                  </span>
+                )
+              )}
               <LanguageSwitcher />
               {!hasEnvVars ? <EnvVarWarning /> : <AuthButton />}
             </div>
