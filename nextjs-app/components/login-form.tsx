@@ -1,7 +1,6 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,9 +11,9 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
+import { loginAction } from "@/lib/auth-actions";
 
 export function LoginForm({
   className,
@@ -23,29 +22,21 @@ export function LoginForm({
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
   const t = useTranslations("LoginForm");
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    const supabase = createClient();
-    setIsLoading(true);
     setError(null);
 
-    try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email:username+"@beds.app.user",
-        password,
-      });
-      if (error) throw error;
-      // Update this route to redirect to an authenticated route. The user already has an active session.
-      router.push("/");
-    } catch (error: unknown) {
-      setError(error instanceof Error ? error.message : t("genericError"));
-      setIsLoading(false);
-    }
+    startTransition(async () => {
+      try {
+        await loginAction(username, password);
+      } catch (error: unknown) {
+        setError(error instanceof Error ? error.message : t("genericError"));
+      }
+    });
   };
 
   return (
@@ -89,9 +80,9 @@ export function LoginForm({
                 type="submit"
                 data-testid="login-submit"
                 className="w-full"
-                disabled={isLoading}
+                disabled={isPending}
               >
-                {isLoading ? t("loggingIn") : t("login")}
+                {isPending ? t("loggingIn") : t("login")}
               </Button>
             </div>
           </form>
