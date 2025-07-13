@@ -29,6 +29,8 @@ Bed, patient reference, start time (default now), length (30 minute increments),
 
 TODO:
 
+make a test that catches the issue with signing in as admin and then user and then admin and its showing the wrong status of the cogwheel and then the logout button gets an error
+
 Add something to the users/auth to indicate if they are admins or regular users.
 -- lets stick with the username itself indicating the role. "user" in the username means regular user.
 "admin" means admin.
@@ -38,3 +40,4 @@ Figure out how to test CRUD stuff when there's already data?!
 Make a plan for a user interface for the configuration page for beds
 Write tests for the configuration page
 Write code for the configuration page
+

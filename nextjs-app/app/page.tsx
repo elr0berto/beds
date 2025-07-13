@@ -2,7 +2,6 @@ import { prisma } from "@/lib/prisma";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { PageLayout } from "@/components/page-layout";
-import { Bed, BedStatus } from "@prisma/client";
 import { getTranslations } from "next-intl/server";
 import { BedsGrid } from "@/components/beds-grid";
 import "./beds-grid.scss";
