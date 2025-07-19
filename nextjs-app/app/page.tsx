@@ -18,6 +18,11 @@ export default async function Page() {
   const todayStart = new Date(now.setHours(0, 0, 0, 0));
   const todayEnd = new Date(now.setHours(23, 59, 59, 999));
 
+  const scheduleStart = new Date(todayStart);
+    scheduleStart.setHours(8, 0, 0, 0);
+  const scheduleEnd = new Date(todayEnd);
+    scheduleEnd.setHours(20, 0, 0, 0);
+
   const beds = await prisma.bed.findMany({
     include: {
       statuses: {
@@ -43,7 +48,9 @@ export default async function Page() {
     <PageLayout>
       <BedsGrid 
         beds={beds} 
-        noBeds={tBedsManager("noBeds")} 
+        noBeds={tBedsManager("noBeds")}
+        scheduleStart={scheduleStart}
+        scheduleEnd={scheduleEnd}
       />
     </PageLayout>
   );

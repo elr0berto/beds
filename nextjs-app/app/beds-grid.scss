@@ -33,12 +33,26 @@
         grid-column: 2;
         border-radius: 0.8rem;
         border: 1px solid #ccc;
-        height: 3rem;
         min-height: 3rem;
-        max-height: 3rem;
-        
+        position: relative;
+
         &.bed-statuses-available {
             background-color: #ebf0e5;
+        }
+        .bed-status {
+            border-radius: 0.8rem;
+            border: 1px solid #ccc;
+            background: lightcoral;
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+
+            font-size: 0.8rem;
+        }
+        .time-now-line {
+            border-left: 1px solid #000;
+            height: 100%;
+            position: absolute;
         }
     }
 }

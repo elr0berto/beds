@@ -5,13 +5,16 @@ import { Bed, BedStatus } from "@prisma/client";
 import { AddBedStatusModal } from "./add-bed-status-modal";
 import { Fragment } from "react";
 import { Button } from "@/components/ui/button";
+import {calculateOffset, calculatePercentage, date2Time} from "@/lib/utils";
 
 interface BedsGridProps {
   beds: (Bed & { statuses: BedStatus[] })[];
   noBeds: string;
+  scheduleStart: Date;
+  scheduleEnd: Date;
 }
 
-export function BedsGrid({ beds, noBeds }: BedsGridProps) {
+export function BedsGrid(props: BedsGridProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedBedId, setSelectedBedId] = useState<number | undefined>(undefined);
 
@@ -34,8 +37,21 @@ export function BedsGrid({ beds, noBeds }: BedsGridProps) {
     return (
       <div className={classNames.join(" ")}>
         {bed.statuses.map((status, statusIdx) => (
-          <div key={`${bedIdx}-${statusIdx}`} className="bed-status">{status.status}</div>
+          <div key={`${bedIdx}-${statusIdx}`}
+            className="bed-status"
+            style={{
+              left: calculateOffset(status.startDate, props.scheduleStart, props.scheduleEnd)+'%',
+              width: calculatePercentage(status.startDate, status.endDate, props.scheduleStart, props.scheduleEnd) + "%"
+            }}
+          >
+            <div className="status-time-start">{date2Time(status.startDate)}</div>
+            <div className="status">{status.status}</div>
+            <div className="status-time-end">{date2Time(status.endDate)}</div>
+          </div>
         ))}
+        <div className="time-now-line" style={{
+          left: calculateOffset(now, props.scheduleStart, props.scheduleEnd) + '%'
+        }}/>
       </div>
     );
   };
@@ -44,7 +60,6 @@ export function BedsGrid({ beds, noBeds }: BedsGridProps) {
     return (
       <Fragment key={bedIdx}>
         <div className="bed-name" data-test-id="bed-name">
-          <span>{bed.name}</span>
           <Button
             size="sm"
             variant="outline"
@@ -53,6 +68,7 @@ export function BedsGrid({ beds, noBeds }: BedsGridProps) {
           >
             Add
           </Button>
+          <span>{bed.name}</span>
         </div>
         {renderStatuses(bed, bedIdx)}
       </Fragment>
@@ -60,18 +76,26 @@ export function BedsGrid({ beds, noBeds }: BedsGridProps) {
   };
 
   const renderGrid = (beds: (Bed & { statuses: BedStatus[] })[]) => (
-    <div data-testid="bed-grid" className="beds-grid overflow-x-auto">
-      {beds.map((bed, bedIdx) => renderBed(bed, bedIdx))}
-    </div>
+      <>
+        <div data-testid="time-row" className="time-row">
+          <div className="time-labels">Today</div>
+          <div className="timeline">
+
+          </div>
+        </div>
+        <div data-testid="bed-grid" className="beds-grid overflow-x-auto">
+          {beds.map((bed, bedIdx) => renderBed(bed, bedIdx))}
+        </div>
+      </>
   );
 
   return (
     <>
-      {beds.length > 0 ? renderGrid(beds) : <div>{noBeds}</div>}
+      {props.beds.length > 0 ? renderGrid(props.beds) : <div>{props.noBeds}</div>}
       <AddBedStatusModal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
-        beds={beds}
+        beds={props.beds}
         selectedBedId={selectedBedId}
       />
     </>
