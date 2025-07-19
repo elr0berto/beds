@@ -1,35 +1,9 @@
-import { test, expect, type Page } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 
 // Database helper utilities used across tests – destructive so lives in serial
 import { deleteAllBeds, createBed } from "../helpers/beds";
+import {loginAsAdmin, loginAsUser} from "@/tests/helpers/login-helpers";
 
-// Use environment-provided credentials so tests are portable
-const ADMIN_USERNAME = process.env.TEST_ADMIN_USERNAME ?? "";
-const ADMIN_PASSWORD = process.env.TEST_ADMIN_PASSWORD ?? "";
-
-// Helper to sign in as admin
-async function loginAsAdmin(page: Page) {
-  await page.goto("/auth/login");
-  await page.getByTestId("username-input").fill(ADMIN_USERNAME);
-  await page.getByTestId("password-input").fill(ADMIN_PASSWORD);
-  await page.getByTestId("login-submit").click();
-  await page.waitForURL("/");
-}
-
-// ---------------------------------------------------------------------------
-// Regular user credentials & login helper
-// ---------------------------------------------------------------------------
-
-const USER_USERNAME = process.env.TEST_USER_USERNAME ?? "";
-const USER_PASSWORD = process.env.TEST_USER_PASSWORD ?? "";
-
-async function loginAsUser(page: Page) {
-  await page.goto("/auth/login");
-  await page.getByTestId("username-input").fill(USER_USERNAME);
-  await page.getByTestId("password-input").fill(USER_PASSWORD);
-  await page.getByTestId("login-submit").click();
-  await page.waitForURL("/");
-}
 
 // ---------------------------------------------------------------------------
 // The tests – run serially by project configuration
@@ -49,13 +23,13 @@ test.describe.serial("Bed status manager page – Grid View (serial)", () => {
     await expect(page.getByTestId("bed-added-toast")).toBeVisible();
 
     // Navigate to the public beds page
-    await page.goto("/bed-status-manager");
+    await page.goto("/");
 
     // Expect the grid container to be visible
     await expect(page.getByTestId("bed-grid")).toBeVisible();
 
     // Expect our newly created bed to appear in the grid
-    await expect(page.getByTestId("bed-card").filter({ hasText: bedName })).toBeVisible();
+    await expect(page.getByTestId("bed-name").filter({ hasText: bedName })).toBeVisible();
   });
 
   test("is accessible to regular users", async ({ page }) => {
@@ -65,7 +39,7 @@ test.describe.serial("Bed status manager page – Grid View (serial)", () => {
 
     await loginAsUser(page);
 
-    await page.goto("/bed-status-manager");
+    await page.goto("/");
 
     await expect(page.getByTestId("bed-grid")).toBeVisible();
     await expect(page.getByTestId("bed-card").filter({ hasText: bedName })).toBeVisible();
@@ -77,7 +51,7 @@ test.describe.serial("Bed status manager page – Grid View (serial)", () => {
 
     await loginAsAdmin(page);
 
-    await page.goto("/bed-status-manager");
+    await page.goto("/");
 
     await expect(page.getByTestId("no-beds-message")).toBeVisible();
   });
@@ -87,7 +61,7 @@ test.describe.serial("Bed status manager page – Grid View (serial)", () => {
     await createBed(bedName);
 
     await loginAsUser(page);
-    await page.goto("/bed-status-manager");
+    await page.goto("/");
 
     await expect(page.getByTestId("no-beds-message")).not.toBeVisible();
   });
@@ -97,7 +71,7 @@ test.describe.serial("Bed status manager page – Grid View (serial)", () => {
     await createBed(bedName);
 
     await loginAsUser(page);
-    await page.goto("/bed-status-manager");
+    await page.goto("/");
 
     // Expect header cells for 08:00 and 22:00 to be visible
     await expect(page.getByText("08:00")).toBeVisible();

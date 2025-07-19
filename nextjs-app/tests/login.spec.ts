@@ -1,10 +1,5 @@
 import { test, expect } from "@playwright/test";
-
-// Load test credentials from environment variables with fallbacks for local runs
-const ADMIN_USERNAME = process.env.TEST_ADMIN_USERNAME ?? '';
-const ADMIN_PASSWORD = process.env.TEST_ADMIN_PASSWORD ?? '';
-const USER_USERNAME = process.env.TEST_USER_USERNAME ?? '';
-const USER_PASSWORD = process.env.TEST_USER_PASSWORD ?? '';
+import {loginAsAdmin, VALID_USERS} from "@/tests/helpers/login-helpers";
 
 test.describe("Login page", () => {
   test("should display username and password fields", async ({ page }) => {
@@ -30,12 +25,7 @@ test.describe("Login page", () => {
     await expect(page).toHaveURL(/\/auth\/login$/);
   });
 
-  const validUsers: { username: string; password: string }[] = [
-    { username: ADMIN_USERNAME, password: ADMIN_PASSWORD },
-    { username: USER_USERNAME, password: USER_PASSWORD },
-  ];
-
-  for (const { username, password } of validUsers) {
+  for (const { username, password } of VALID_USERS) {
     test(`should allow ${username} to sign in and out successfully`, async ({ page }) => {
       await page.goto("/auth/login");
       await page.getByTestId("username-input").fill(username);
@@ -57,10 +47,7 @@ test.describe("Login page", () => {
 
   test("should prompt signed-in users to sign out first when visiting /auth/login", async ({ page }) => {
     // Sign in first
-    await page.goto("/auth/login");
-    await page.getByTestId("username-input").fill(ADMIN_USERNAME);
-    await page.getByTestId("password-input").fill(ADMIN_PASSWORD);
-    await page.getByTestId("login-submit").click();
+    await loginAsAdmin(page);
 
     // We should now be authenticated and at the root page
     await page.waitForURL("/");

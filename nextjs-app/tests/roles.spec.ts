@@ -8,16 +8,32 @@ import { isAdmin, isUser } from "@/lib/roles";
 // client- and server-side runtimes.
 
 test.describe("Role helpers", () => {
-  const adminUsername = "super-admin";
-  const userUsername = "simple-user";
+  const adminUsername = ["super-admin", "some-admin", "blah-admin"];
+  const userUsername = ["simple-user", "some-user", "asdsad-user"];
+
+  const neitherAdminNorUserUsername = ['blah','blah-blah','blah-blah-blah'];
 
   test("isAdmin() identifies admins correctly", async () => {
-    expect(isAdmin(adminUsername)).toBe(true);
-    expect(isAdmin(userUsername)).toBe(false);
+    // Test with various admin usernames
+    for (const username of adminUsername) {
+      expect(isAdmin(username)).toBe(true);
+      expect(isUser(username)).toBe(false);
+    }
   });
 
   test("isUser() identifies users correctly", async () => {
-    expect(isUser(userUsername)).toBe(true);
-    expect(isUser(adminUsername)).toBe(false);
+    // Test with various user usernames
+    for (const username of userUsername) {
+      expect(isAdmin(username)).toBe(false);
+      expect(isUser(username)).toBe(true);
+    }
+  });
+
+  test("isAdmin() and isUser() identifies non-admins/users correctly", async () => {
+    // Test with various non-admin usernames
+    for (const username of neitherAdminNorUserUsername) {
+      expect(isAdmin(username)).toBe(false);
+      expect(isUser(username)).toBe(false);
+    }
   });
 }); 

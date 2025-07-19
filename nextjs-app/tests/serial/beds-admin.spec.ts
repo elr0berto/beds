@@ -1,30 +1,5 @@
-import { test, expect, type Page } from "@playwright/test";
-
-// Use environment-provided credentials when available so tests run in all envs
-const ADMIN_USERNAME = process.env.TEST_ADMIN_USERNAME ?? '';
-const ADMIN_PASSWORD = process.env.TEST_ADMIN_PASSWORD ?? '';
-
-const USER_USERNAME = process.env.TEST_USER_USERNAME ?? '';
-const USER_PASSWORD = process.env.TEST_USER_PASSWORD ?? '';
-
-// Utility function to sign the current Playwright page in as an admin
-async function loginAsAdmin(page: Page) {
-  await page.goto("/auth/login");
-  await page.getByTestId("username-input").fill(ADMIN_USERNAME);
-  await page.getByTestId("password-input").fill(ADMIN_PASSWORD);
-  await page.getByTestId("login-submit").click();
-  // Successful login redirects to the app root
-  await page.waitForURL("/");
-}
-
-// Utility to sign in as a normal (non-admin) user
-async function loginAsUser(page: Page) {
-  await page.goto("/auth/login");
-  await page.getByTestId("username-input").fill(USER_USERNAME);
-  await page.getByTestId("password-input").fill(USER_PASSWORD);
-  await page.getByTestId("login-submit").click();
-  await page.waitForURL("/");
-}
+import { test, expect } from "@playwright/test";
+import {loginAsAdmin, loginAsUser} from "../helpers/login-helpers";
 
 test.describe("Admin › Beds CRUD and reorder", () => {
   test("can create a new bed", async ({ page }) => {

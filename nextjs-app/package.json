@@ -7,7 +7,7 @@
     "vercel-build": "prisma generate && prisma migrate deploy && next build",
     "start": "next start",
     "lint": "next lint",
-    "test:e2e": "playwright test",
+    "test:e2e": "dotenvx run -f .env -- playwright test",
     "test:e2e:local:supabase": "dotenvx run -f .env.local.supabase -f .env -- playwright test",
     "prisma:migrate:dev": "prisma migrate dev",
     "prisma:migrate:dev:local:supabase": "dotenvx run -f .env.local.supabase -f .env -- prisma migrate dev",

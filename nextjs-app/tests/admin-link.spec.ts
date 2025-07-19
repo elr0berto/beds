@@ -1,27 +1,5 @@
-import { test, expect, type Page } from "@playwright/test";
-
-// Reuse environment-provided credentials when available so tests run in all envs
-const ADMIN_USERNAME = process.env.TEST_ADMIN_USERNAME ?? "";
-const ADMIN_PASSWORD = process.env.TEST_ADMIN_PASSWORD ?? "";
-
-const USER_USERNAME = process.env.TEST_USER_USERNAME ?? "";
-const USER_PASSWORD = process.env.TEST_USER_PASSWORD ?? "";
-
-async function loginAs(page: Page, username: string, password: string) {
-  await page.goto("/auth/login");
-  await page.getByTestId("username-input").fill(username);
-  await page.getByTestId("password-input").fill(password);
-  await page.getByTestId("login-submit").click();
-  await page.waitForURL("/");
-}
-
-async function loginAsAdmin(page: Page) {
-  await loginAs(page, ADMIN_USERNAME, ADMIN_PASSWORD);
-}
-
-async function loginAsUser(page: Page) {
-  await loginAs(page, USER_USERNAME, USER_PASSWORD);
-}
+import { test, expect } from "@playwright/test";
+import {loginAsAdmin, loginAsUser} from "@/tests/helpers/login-helpers";
 
 test.describe("Navbar – admin link", () => {
   test("shows cog link for admin users and navigates correctly", async ({ page }) => {

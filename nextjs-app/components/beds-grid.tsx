@@ -43,7 +43,7 @@ export function BedsGrid({ beds, noBeds }: BedsGridProps) {
   const renderBed = (bed: Bed & { statuses: BedStatus[] }, bedIdx: number) => {
     return (
       <Fragment key={bedIdx}>
-        <div className="bed-name">
+        <div className="bed-name" data-test-id="bed-name">
           <span>{bed.name}</span>
           <Button
             size="sm"
