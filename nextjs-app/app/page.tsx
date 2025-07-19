@@ -37,7 +37,6 @@ export default async function Page() {
     }
   });
 
-  const tBedsAdmin = await getTranslations("BedsAdmin");
   const tBedsManager = await getTranslations("BedsManager");
 
   return (

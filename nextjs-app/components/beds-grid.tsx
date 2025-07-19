@@ -27,7 +27,7 @@ export function BedsGrid({ beds, noBeds }: BedsGridProps) {
 
   const renderStatuses = (bed: Bed & { statuses: BedStatus[] }, bedIdx: number) => {
     const now = new Date();
-    let classNames = ["bed-statuses"];
+    const classNames = ["bed-statuses"];
     if (bed.statuses.length === 0 || !bed.statuses.some(status => status.startDate <= now && status.endDate > now)) {
       classNames.push("bed-statuses-available");
     }
